@@ -1,0 +1,482 @@
+Ians-Air:~ ian$ git --version
+git version 2.17.2 (Apple Git-113)
+Ians-Air:~ ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> 2 + 15
+17
+ghci> 49 * 100
+4900
+ghci> 1892 -1472
+420
+ghci> 5 / 2
+2.5
+ghci> True && Falso
+ghci> True & False
+ghci> True && False
+False
+ghci> True && True
+True
+ghci> 5 + (int) "llama"
+ghci> 5 + (int) 'c'
+ghci> succ 8
+9
+ghci> succ 9
+10
+ghci> min 9 11
+9
+ghci> max 9 3
+9
+ghci> :quit
+Leaving GHCi.
+Ians-Air:/ ian$ cd
+Ians-Air:~ ian$ ls
+Applications		Music			eclipse
+Desktop			Pictures		eclipse-workspace
+Documents		Public			iCloud Drive (Archive)
+Downloads		PycharmProjects		my-project
+Library			Qt
+Movies			VirtualBox VMs
+Ians-Air:~ ian$ cd my-project
+Ians-Air:my-project ian$ ls
+ChangeLog.md		app			stack.yaml
+LICENSE			my-project.cabal	stack.yaml.lock
+README.md		package.yaml		test
+Setup.hs		src
+Ians-Air:my-project ian$ cd src
+Ians-Air:src ian$ ls
+Lib.hs	baby.hs
+Ians-Air:src ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> :1 baby
+unknown command ':1'
+use :? for help.
+ghci> : baby
+there is no last command to perform
+use :? for help.
+ghci> :l baby
+[1 of 1] Compiling Main             ( baby.hs, interpreted )
+Ok, one module loaded.
+ghci> doubleMe 9
+18
+ghci> doubleMe 8.3
+16.6
+ghci> :quit
+Leaving GHCi.
+Ians-Air:/ ian$ cd
+Ians-Air:~ ian$ ls
+Applications		Music			eclipse
+Desktop			Pictures		eclipse-workspace
+Documents		Public			iCloud Drive (Archive)
+Downloads		PycharmProjects		my-project
+Library			Qt
+Movies			VirtualBox VMs
+Ians-Air:~ ian$ cd my-project
+Ians-Air:my-project ian$ ls
+ChangeLog.md		app			stack.yaml
+LICENSE			my-project.cabal	stack.yaml.lock
+README.md		package.yaml		test
+Setup.hs		src
+Ians-Air:my-project ian$ cd src
+Ians-Air:src ian$ ls
+Lib.hs	baby.hs
+Ians-Air:src ian$ :l baby
+-bash: :l: command not found
+Ians-Air:src ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> :l baby
+[1 of 1] Compiling Main             ( baby.hs, interpreted )
+Ok, one module loaded.
+ghci> doubleUs 4 9
+26
+ghci> doubleMe 4
+
+<interactive>:4:1: error:
+    • Variable not in scope: doubleMe :: Integer -> t
+    • Perhaps you meant ‘doubleUs’ (line 1)
+ghci>     conanO'Brien = "It's a-me, Conan O'Brien!"
+ghci> conanO'Brien
+"It's a-me, Conan O'Brien!"
+ghci> let lostNumbers = [4,8,15,16,23,42]
+ghci> lostNumbers
+[4,8,15,16,23,42]
+ghci> "hello" ++ " " ++ "world!"
+"hello world!"
+ghci> "Ian Miranda" !! 6
+'r'
+ghci> length lostNumbers
+6
+ghci> [1..23]
+[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+ghci> [2,4,6..18]
+<interactive>:13:7: error: parse error on input ‘..’
+ghci> [2,4..28]
+[2,4,6,8,10,12,14,16,18,20,22,24,26,28]
+ghci> [x*2 | x <- [1..10]]
+[2,4,6,8,10,12,14,16,18,20]
+ghci> [x*2 | x <- [1..10], x*2 >= 12]
+[12,14,16,18,20]
+ghci> [ x | x <- [50..100], x `mod` 7 == 3]
+[52,59,66,73,80,87,94]
+ghci>     boomBangs xs = [ if x < 10 then "BOOM!" else "BANG!" | x <- xs, odd x]
+ghci> boomBangs [7..13]
+["BOOM!","BOOM!","BANG!","BANG!"]
+ghci> boomBangs [5..20]
+["BOOM!","BOOM!","BOOM!","BANG!","BANG!","BANG!","BANG!","BANG!"]
+ghci> [ x*y | x <- [2,5,10], y <- [8,10,11]]
+[16,20,22,40,50,55,80,100,110]
+ghci> [ x*y | x <- [2,5,10], y <- [8,10,11], x*y > 50]
+[55,80,100,110]
+ghci> let nouns = ["hobo","frog","pope"]
+ghci> let adjectives = ["lazy","grouchy","scheming"]
+ghci> [adjective ++ " " ++ noun | adjective <- adjectives, noun <- nouns]
+["lazy hobo","lazy frog","lazy pope","grouchy hobo","grouchy frog","grouchy pope","scheming hobo","scheming frog","scheming pope"]
+ghci> length' xs = sum [1 | _ <- xs]
+ghci> length' lostNumbers
+6
+ghci> removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+ghci> removeNonUppercase "Hahaha! Ahahaha!"
+"HA"
+ghci> removeNonUppercase "IdontLIKEFROGS"
+"ILIKEFROGS"
+ghci> let xxs = [[1,3,5,2,3,1,2,4,5],[1,2,3,4,5,6,7,8,9],[1,2,4,2,1,6,3,1,3,2,3,6]]
+ghci> [ [ x | x <- xs, even x ] | xs <- xxs]
+[[2,2,4],[2,4,6,8],[2,4,2,6,2,6]]
+ghci> fst (8,11)
+8
+ghci> fst ("Wow", False)
+"Wow"
+ghci> snd (22, 2)
+2
+ghci> snd ("Wow", False)
+False
+ghci> zip [1,2,3,4,5] [5,5,5,5,5]
+[(1,5),(2,5),(3,5),(4,5),(5,5)]
+ghci> zip [1 .. 5] ["one", "two", "three", "four", "five"]
+[(1,"one"),(2,"two"),(3,"three"),(4,"four"),(5,"five")]
+ghci> zip [5,3,2,6,2,7,2,5,4,6,6] ["im","a","turtle"]
+[(5,"im"),(3,"a"),(2,"turtle")]
+ghci> zip [1..] ["apple", "orange", "cherry", "mango"]
+[(1,"apple"),(2,"orange"),(3,"cherry"),(4,"mango")]
+ghci> let triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
+ghci> let rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2]
+ghci> let rightTriangles' = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
+ghci> rightTriangles'
+[(6,8,10)]
+ghci> :t 'a'
+'a' :: Char
+ghci> :t True
+True :: Bool
+ghci> :t "HELLO!"
+"HELLO!" :: [Char]
+ghci> :t (True, 'a')
+(True, 'a') :: (Bool, Char)
+ghci> :t 4 == 5
+4 == 5 :: Bool
+ghci> removeNonUppercase :: [Char] -> [Char]
+
+<interactive>:50:1: error:
+    • No instance for (Show ([Char] -> [Char]))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+ghci> removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+ghci> removeNonUppercase :: [Char] -> [Char]
+
+<interactive>:52:1: error:
+    • No instance for (Show ([Char] -> [Char]))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+ghci> factorial 50
+
+<interactive>:53:1: error:
+    Variable not in scope: factorial :: Integer -> t
+ghci> factorial n = product [1..n]
+ghci> factorial 50
+30414093201713378043612608166064768844377641568960512000000000000
+ghci> factorial 10
+3628800
+ghci> circumference r = 2 * pi * r
+ghci> circumference 4.0
+25.132741228718345
+ghci> circumference' r = 2 * pi * r
+ghci> circumference' 4.0
+25.132741228718345
+ghci> :t head
+head :: [a] -> a
+ghci> :t fst
+fst :: (a, b) -> a
+ghci> :t snd
+snd :: (a, b) -> b
+ghci> :t (==)
+(==) :: Eq a => a -> a -> Bool
+ghci> "Abrakadabra" < "Zebra"
+True
+ghci> "Abrakadabra" `compare` "Zebra"
+LT
+ghci> 5 >=4
+True
+ghci> 5 'compare' 3
+
+<interactive>:68:3: error:
+    • Syntax error on 'compare'
+      Perhaps you intended to use TemplateHaskell or TemplateHaskellQuotes
+    • In the Template Haskell quotation 'compare'
+ghci> 5 `compare` 3
+GT
+ghci> show 3
+"3"
+ghci> show 5.4324
+"5.4324"
+ghci> show True
+"True"
+ghci> read "True" || False
+True
+ghci> read "8.2" + 3.8
+12.0
+ghci> read "5" - 2
+3
+ghci> read "[1,2,3,4]" ++ [3]
+[1,2,3,4,3]
+ghci> read "4"
+*** Exception: Prelude.read: no parse
+ghci> :t read
+read :: Read a => String -> a
+ghci> read "5" :: Int
+5
+ghci> read "5" :: Float
+5.0
+ghci> (read "5" :: Float) * 4
+20.0
+ghci> read "[1,2,3,4]" :: [Int]
+[1,2,3,4]
+ghci> read "(3, 'a')" :: (Int, Char)
+(3,'a')
+ghci> ['a'..'e']
+"abcde"
+ghci> [LT .. GT]
+[LT,EQ,GT]
+ghci> [3 .. 5]
+[3,4,5]
+ghci> succ 'B'
+'C'
+ghci> minBound :: Int
+-9223372036854775808
+ghci> maxBound :: Char
+'\1114111'
+ghci> maxBound :: Bool
+True
+ghci> maxBound :: Int
+9223372036854775807
+ghci> minBound :: Bool
+False
+ghci> maxBound :: (Bool, Int, Char)
+(True,9223372036854775807,'\1114111')
+ghci> :t 20
+20 :: Num p => p
+ghci> 20 :: Float
+20.0
+ghci> 20 :: Double
+20.0
+ghci> :t (*)
+(*) :: Num a => a -> a -> a
+ghci> lucky :: (Integral a) => a -> String
+
+<interactive>:98:1: error:
+    Variable not in scope: lucky :: a1 -> String
+ghci> lucky 7 = "LUCKY NUMBER SEVEN!"
+ghci> lucky x = "Sorry, you're out of luck, pal!"
+ghci> lucky
+
+<interactive>:101:1: error:
+    • No instance for (Show (p0 -> [Char]))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+ghci> lucky 7
+"Sorry, you're out of luck, pal!"
+ghci> lucky 5
+"Sorry, you're out of luck, pal!"
+ghci> lucky 7 = "LUCKY NUMBER SEVEN!"
+ghci> lucky 7
+"LUCKY NUMBER SEVEN!"
+ghci> lucky 8
+"*** Exception: <interactive>:104:1-31: Non-exhaustive patterns in function lucky
+
+ghci> sayMe 1 = "One!"
+ghci> sayMe 2 = "Two!"
+ghci> sayMe 3 = "Three!"
+ghci> sayMe 4 = "Four!"
+ghci> sayMe 5 = "Five!"
+ghci> sayMe x = "Not between 1 and 5"
+ghci> sayMe 4
+"Not between 1 and 5"
+ghci> say Me 1
+
+<interactive>:114:1: error:
+    Variable not in scope: say :: t0 -> Integer -> t
+
+<interactive>:114:5: error: Data constructor not in scope: Me
+ghci> sayMe 1
+"Not between 1 and 5"
+ghci> factorial 0 = 1
+ghci> factorial n = n * factorial (n - 1)
+ghci> charName 'a' = "Albert"
+ghci> charName 'b' = "Broseph"
+ghci> charName 'c' = "Cecil"
+ghci> charName 'a'
+"*** Exception: <interactive>:120:1-22: Non-exhaustive patterns in function charName
+
+ghci> addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
+ghci> let xs = [(1,3), (4,3), (2,4), (5,3), (5,6), (3,1)]
+ghci> [a+b | (a,b) <- xs]
+[4,7,6,8,11,4]
+ghci> head' [] = error "Can't call head on an empty list, dummy!"
+ghci> head' (x:_) = x
+ghci> head' [4,5,6]
+4
+ghci> head' "Hello"
+'H'
+ghci> tell [] = "The list is empty"
+ghci> tell (x:[]) = "The list has one element: " ++ show x
+ghci> tell (x:y:[]) = "The list has two elements: " ++ show x ++ " and " ++ show y
+ghci> tell (x:y:_) = "This list is long. The first two elements are: " ++ show x ++ " and " ++ show y
+ghci> length' [] = 0
+ghci> length' (_:xs) = 1 + length' xs
+ghci> capital "Dracula"
+
+<interactive>:135:1: error:
+    Variable not in scope: capital :: [Char] -> t
+ghci> capital "" = "Empty string, whoops!"
+ghci> capital all@(x:xs) = "The first letter of " ++ all ++ " is " ++ [x]
+ghci> capital "Dracula"
+"The first letter of Dracula is D"
+ghci> bmiTell bmi
+<interactive>:146:9: error: Variable not in scope: bmi
+ghci>
+ghci> bmiTell weight height | weight / height ^ 2 <= 18.5 = "You're underweight, you emo, you!" | weight / height ^ 2 <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!" | weight / height ^ 2 <= 30.0 = "You're fat! Lose some weight, fatty!"| otherwise                 = "You're a whale, congratulations!"
+ghci> bmiTell 85 1.90
+"You're supposedly normal. Pffft, I bet you're ugly!"
+ghci> max' a b | a>b = a | otherwise = b
+ghci> max' a b | a > b = a | otherwise = b
+ghci> a 'myCompare' b | a>b = GT | a ==b = EQ | otherwise = LT
+
+<interactive>:152:3: error: Parse error in pattern: 'myCompare'
+ghci> a `myCompare` b | a>b = GT | a ==b = EQ | otherwise = LT
+ghci> 3 `myCompare` 2
+GT
+ghci> bmiTell weight height | weight / height ^ 2 <= 18.5 = "You're underweight, you emo, you!" | weight / height ^ 2 <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!" | weight / height ^ 2 <= 30.0 = "You're fat! Lose some weight, fatty!"| otherwise                   = "You're a whale, congratulations!"
+ghci>
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+Ians-Air:~ ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> set ::quit
+Ians-Air:~ ian$ cd
+Ians-Air:~ ian$ ls
+Applications		Music			eclipse
+Desktop			Pictures		eclipse-workspace
+Documents		Public			iCloud Drive (Archive)
+Downloads		PycharmProjects		my-project
+Library			Qt
+Movies			VirtualBox VMs
+Ians-Air:~ ian$ cd my-project
+Ians-Air:my-project ian$ ls
+ChangeLog.md		app			stack.yaml
+LICENSE			my-project.cabal	stack.yaml.lock
+README.md		package.yaml		test
+Setup.hs		src
+Ians-Air:my-project ian$ cd src
+Ians-Air:src ian$ ls
+Lib.hs	baby.hs
+Ians-Air:src ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> let multTwoWithNine = multThree 9
+
+<interactive>:2:23: error:
+    Variable not in scope: multThree :: Integer -> t
+ghci> multThree x y z = x * y * z  
+ghci> let multTwoWithNine = multThree 9
+ghci> multTwoWithNine 2 3
+54
+ghci> let multWithEighteen = multTwoWithNine 2
+ghci> multWithEighteen 10
+180
+ghci> compareWithHundred x = compare 100 x  
+ghci> compareWithHundred = compare 100  
+ghci> divideByTen = (/10)  
+ghci> isUpperAlphanum = (`elem` ['A'..'Z'])  
+ghci> multThree 3 4
+
+<interactive>:12:1: error:
+    • No instance for (Show (Integer -> Integer))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+ghci> applyTwice f x = f (f x)  
+ghci> applyTwice (+3) 10
+16
+ghci> applyTwice (+2) 10
+14
+ghci> applyTwice (++ " HAHA") "HEY"
+"HEY HAHA HAHA"
+ghci> applyTwice ("HAHA " ++) "HEY"  
+"HAHA HAHA HEY"
+ghci> applyTwice (multThree 2 2) 9
+144
+ghci> applyTwice (3:) [1]
+[3,3,1]
+ghci> zipWith' _ [] _ = []
+ghci> zipWith' _ _ [] = []  
+ghci> zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys  
+ghci> zipWith' (+) [4,2,5,6] [2,6,2,3]
+[6,8,7,9*** Exception: <interactive>:22:1-51: Non-exhaustive patterns in function zipWith'
+
+ghci> zipWith' max [6,3,2,1] [7,3,1,5]
+[7,3,2,5*** Exception: <interactive>:22:1-51: Non-exhaustive patterns in function zipWith'
+
+ghci> zipWith' (++) ["foo ", "bar ", "baz "] ["fighters", "hoppers", "aldrin"]
+["foo fighters","bar hoppers","baz aldrin"*** Exception: <interactive>:22:1-51: Non-exhaustive patterns in function zipWith'
+
+ghci> zipWith' (*) (replicate 5 2) [1..]
+[2,4,6,8,10*** Exception: <interactive>:22:1-51: Non-exhaustive patterns in function zipWith'
+
+ghci> flip' f = g  where g x y = f y x
+ghci> flip' f y x = f x y  
+ghci> flip' zip [1,2,3,4,5] "hello"
+[('h',1),('e',2),('l',3),('l',4),('o',5)]
+ghci> zipWith (flip' div) [2,2..] [10,8,6,4,2]
+[5,4,3,2,1]
+ghci> map _ [] = []  
+ghci> map f (x:xs) = f x : map f xs  
+ghci> map (+3) [1,5,3,1,6]
+[4,8,6,4,9*** Exception: <interactive>:32:1-29: Non-exhaustive patterns in function map
+
+ghci> filter _ [] = []
+ghci> filter p (x:xs)
+
+<interactive>:35:8: error: Variable not in scope: p
+
+<interactive>:35:11: error: Variable not in scope: x
+
+<interactive>:35:13: error: Variable not in scope: xs :: [a10]
+ghci> filter p (x:xs) | p x = x : filter p xs | otherwise = filter p xs
+ghci> filter (>3) [1,5,3,2,1,6,4,3,2,1]  
+[5,6,4*** Exception: <interactive>:36:1-65: Non-exhaustive patterns in function filter
+
+ghci> filter (==3) [1,2,3,4,5]  
+[3*** Exception: <interactive>:36:1-65: Non-exhaustive patterns in function filter
+
+ghci> filter even [1..10]
+[2,4,6,8,10*** Exception: <interactive>:36:1-65: Non-exhaustive patterns in function filter
+
+ghci> let notNull x = not (null x) in filter notNull [[1,2,3],[],[3,4,5],[2,2],[],[],[]]
+[[1,2,3],[3,4,5],[2,2]*** Exception: <interactive>:36:1-65: Non-exhaustive patterns in function filter
+
+ghci> 
