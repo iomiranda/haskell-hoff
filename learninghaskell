@@ -479,4 +479,988 @@ ghci> filter even [1..10]
 ghci> let notNull x = not (null x) in filter notNull [[1,2,3],[],[3,4,5],[2,2],[],[],[]]
 [[1,2,3],[3,4,5],[2,2]*** Exception: <interactive>:36:1-65: Non-exhaustive patterns in function filter
 
-ghci> 
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+Ians-Air:~ ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> let listOfFuns = map (*) [0..]
+ghci> (listOfFuns !! 4) 5 
+20
+ghci> numLongChains = length (filter (\xs -> length xs > 15) (map chain [1..100]))  
+
+<interactive>:4:61: error:
+    Variable not in scope: chain :: Integer -> [a0]
+ghci> addThree x y z = x + y + z  
+ghci> addThree = \x -> \y -> \z -> x + y + z  
+ghci> flip' f = \x y -> f y x  
+ghci> sum' xs = foldl (\acc x -> acc + x) 0 xs  
+ghci> sum' [3,5,2,1]  
+11
+ghci> sum' = foldl (+) 0  
+ghci> elem' y ys = foldl (\acc x -> if x == y then True else acc) False ys  
+ghci> map' f xs = foldr (\x acc -> f x : acc) [] xs  
+ghci> scanl (+) 0 [3,5,2,1]
+[0,3,8,10,11]
+ghci> scanr (+) 0 [3,5,2,1] 
+[11,8,3,1,0]
+ghci> scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]  
+[3,4,5,5,7,9,9,9]
+ghci> scanl (flip (:)) [] [3,2,1]  
+[[],[3],[2,3],[1,2,3]]
+ghci> sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1  
+ghci> sqrtSums
+131
+ghci> sum (map sqrt [1..131])  
+1005.0942035344083
+ghci> sum (map sqrt [1..130])  
+993.6486803921487
+ghci> f $ x = f x  
+ghci> map ($ 3) [(4+), (10*), (^2), sqrt]
+[7.0,30.0,9.0,1.7320508075688772]
+ghci> map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
+[-5,-3,-6,-7,-3,-2,-19,-24]
+ghci> map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+[-5,-3,-6,-7,-3,-2,-19,-24]
+ghci> map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+[-14,-15,-27]
+ghci> map (negate . sum . tail) [[1..5],[3..6],[1..7]] 
+[-14,-15,-27]
+ghci> sum' xs = foldl (+) 0 xs     
+ghci> oddSquareSum = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]  
+
+<interactive>:28:16: error:
+    Precedence parsing error
+        cannot mix ‘.’ [infixr 9] and ‘$’ [infixl 9] in the same infix expression
+ghci> import Data.list
+
+<interactive>:29:8: error: parse error on input ‘Data.list’
+ghci> :quit
+Leaving GHCi.
+Ians-Air:~ ian$ cd my-project
+Ians-Air:my-project ian$ ls
+ChangeLog.md		app			stack.yaml
+LICENSE			my-project.cabal	stack.yaml.lock
+README.md		package.yaml		test
+Setup.hs		src
+Ians-Air:my-project ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> import Data.List
+ghci> numUniques = length . nub  
+ghci> :m + Data.List
+ghci> :m + Data.List Data.Map Data.Set
+ghci> import Data.List (nub, sort)  
+ghci> import Data.List hiding (nub)
+ghci> import qualified Data.Map
+ghci> import qualified Data.Map as M
+ghci> intersperce '.' "MONKEY"
+
+<interactive>:10:1: error:
+    • Variable not in scope: intersperce :: Char -> [Char] -> t
+    • Perhaps you meant one of these:
+        ‘intersperse’ (imported from Data.List),
+        ‘intersect’ (imported from Data.List)
+ghci> intersperse '.' "MONKEY"
+"M.O.N.K.E.Y"
+ghci> intersperse 0 [1,2,3,4,5,6]  
+[1,0,2,0,3,0,4,0,5,0,6]
+ghci> intercalate " " ["hey","there","guys"]  
+"hey there guys"
+ghci> intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
+[1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
+ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
+[[1,4,7],[2,5,8],[3,6,9]]
+ghci> transpose ["hey","there","guys"]  
+["htg","ehu","yey","rs","e"]
+ghci> map sum $ transpose [[0,3,5,9],[10,0,0,9],[8,5,1,-1]]
+
+<interactive>:17:1: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+ghci> concat ["foo","bar","car"]  
+"foobarcar"
+ghci> concat [[3,4,5],[2,3,4],[2,1,1]]  
+[3,4,5,2,3,4,2,1,1]
+ghci> concatMap (replicate 4) [1..3]
+[1,1,1,1,2,2,2,2,3,3,3,3]
+ghci> and $ map (>4) [5,6,7,8]  
+
+<interactive>:21:7: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+ghci> any (==4) [2,3,5,6,1,4]  
+True
+ghci> all (>4) [6,9,10]  
+True
+ghci> all (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
+False
+ghci> any (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
+True
+ghci> take 10 $ iterate (*2) 1 
+
+<interactive>:26:1: error:
+    Ambiguous occurrence ‘take’
+    It could refer to either ‘Data.Map.take’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.take’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.take’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.List’)
+ghci> splitAt 3 "heyman"
+
+<interactive>:27:1: error:
+    Ambiguous occurrence ‘splitAt’
+    It could refer to either ‘Data.Map.splitAt’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.splitAt’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.splitAt’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.List’)
+ghci> sum $ takeWhile (<10000) $ map (^3) [1..]
+
+<interactive>:28:28: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+ghci> let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4),(
+
+<interactive>:29:84: error:
+    parse error (possibly incorrect indentation or mismatched brackets)
+ghci> let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4)
+
+<interactive>:30:82: error:
+    parse error (possibly incorrect indentation or mismatched brackets)
+ghci> let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4),(998.3,2008,9,5)]
+ghci> head (dropWhile (\(val,y,m,d) -> val < 1000) stock)
+(1001.4,2008,9,4)
+ghci> let (fw, rest) = span (/=' ') "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
+"First word:This, the rest: is a sentence"
+ghci> break (==4) [1,2,3,4,5,6,7]
+([1,2,3],[4,5,6,7])
+ghci> span (/=4) [1,2,3,4,5,6,7]  
+([1,2,3],[4,5,6,7])
+ghci> sort [8,5,3,2,1,6,4,2]  
+[1,2,2,3,4,5,6,8]
+ghci> sort "This will be sorted soon"  
+"    Tbdeehiillnooorssstw"
+ghci> group [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]  
+[[1,1,1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]
+ghci> inits "w00t"
+["","w","w0","w00","w00t"]
+ghci> tails "w00t"
+["w00t","00t","0t","t",""]
+ghci> let w = "w00t" in zip (inits w) (tails w)  
+[("","w00t"),("w","00t"),("w0","0t"),("w00","t"),("w00t","")]
+ghci> search needle haystack =       let nlen = length needle      in  foldl (\acc x -> if take nlen x == needle then True else acc) False (tails haystack)  
+
+<interactive>:42:66: error:
+    Ambiguous occurrence ‘foldl’
+    It could refer to either ‘Data.Map.foldl’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.foldl’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.foldl’,
+                             imported from ‘Prelude’ (and originally defined in ‘Data.Foldable’)
+
+<interactive>:42:86: error:
+    Ambiguous occurrence ‘take’
+    It could refer to either ‘Data.Map.take’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.take’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.take’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.List’)
+ghci> "cat" `isInfixOf` "im a cat burglar"
+True
+ghci> "Cat" `isInfixOf` "im a cat burglar"
+False
+ghci> "cats" `isInfixOf` "im a cat burglar"
+False
+ghci> "hey" `isPrefixOf` "hey there!"
+True
+ghci> "hey" `isPrefixOf` "oh hey there!"
+False
+ghci> "there!" `isSuffixOf` "oh hey there!"
+True
+ghci> "there!" `isSuffixOf` "oh hey there"
+False
+ghci> partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"  
+
+<interactive>:50:1: error:
+    Ambiguous occurrence ‘partition’
+    It could refer to either ‘Data.Map.partition’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.partition’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Data.List.partition’,
+                             imported from ‘Data.List’
+                             (and originally defined in ‘base-4.12.0.0:Data.OldList’)
+ghci> span (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"  
+("BOB","sidneyMORGANeddy")
+ghci> find (>4) [1,2,3,4,5,6]  
+Just 5
+ghci> find (>9) [1,2,3,4,5,6]  
+Nothing
+ghci> :t find
+find :: Foldable t => (a -> Bool) -> t a -> Maybe a
+
+ghci> :t elemIndex
+elemIndex :: Eq a => a -> [a] -> Maybe Int
+ghci> ' ' `elemIndices` "Where are the spaces?"
+[5,9,13]
+ghci> findIndex (==4) [5,3,2,1,6,4]  
+
+<interactive>:66:1: error:
+    Ambiguous occurrence ‘findIndex’
+    It could refer to either ‘Data.Map.findIndex’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.findIndex’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Data.List.findIndex’,
+                             imported from ‘Data.List’
+                             (and originally defined in ‘base-4.12.0.0:Data.OldList’)
+ghci> zipWith3 (\x y z -> x + y + z) [1,2,3] [4,5,2,2] [2,2,3] 
+[7,9,8]
+ghci> zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
+[(2,2,5,2),(3,2,5,2),(3,2,3,2)]
+ghci> lines "first line\nsecond line\nthird line"
+["first line","second line","third line"]
+ghci> unlines ["first line", "second line", "third line"]
+"first line\nsecond line\nthird line\n"
+ghci> words "hey these are the words in this sentence"
+["hey","these","are","the","words","in","this","sentence"]
+ghci> words "hey these           are    the words in this\nsentence"
+["hey","these","are","the","words","in","this","sentence"]
+ghci> unwords ["hey","there","mate"]
+"hey there mate"
+ghci> nub [1,2,3,4,3,2,1,2,3,4,3,2,1]
+[1,2,3,4]
+ghci> nub "Lots of words and stuff"
+"Lots fwrdanu"
+ghci> delete 'h' "hey there ghang!"
+
+<interactive>:76:1: error:
+    Ambiguous occurrence ‘delete’
+    It could refer to either ‘Data.Map.delete’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.delete’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Data.List.delete’,
+                             imported from ‘Data.List’
+                             (and originally defined in ‘base-4.12.0.0:Data.OldList’)
+ghci> [1..10] \\ [2,5,9] 
+
+<interactive>:77:9: error:
+    Ambiguous occurrence ‘\\’
+    It could refer to either ‘Data.Map.\\’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.\\’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Data.List.\\’,
+                             imported from ‘Data.List’
+                             (and originally defined in ‘base-4.12.0.0:Data.OldList’)
+ghci> "hey man" `union` "man what's up"
+
+<interactive>:78:11: error:
+    Ambiguous occurrence ‘union’
+    It could refer to either ‘Data.Map.union’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.union’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Data.List.union’,
+                             imported from ‘Data.List’
+                             (and originally defined in ‘base-4.12.0.0:Data.OldList’)
+ghci> let values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -14.5, 2.9, 2.3]
+ghci> groupBy (\x y -> (x > 0) == (y > 0)) values
+[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
+ghci> f `on` g = \x y -> f (g x) (g y)  
+ghci> groupBy ((==) `on` (> 0)) values
+[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
+ghci> let xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
+ghci> sortBy (compare `on` length) xs
+[[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]
+ghci> all isAlphaNum "bobby283"  
+
+<interactive>:85:5: error:
+    Variable not in scope: isAlphaNum :: Char -> Bool
+ghci> words "hey guys its me"
+["hey","guys","its","me"]
+ghci> groupBy ((==) `on` isSpace) "hey guys its me"
+
+<interactive>:87:20: error:
+    Variable not in scope: isSpace :: Char -> ()
+ghci> generalCategory ' '
+
+<interactive>:88:1: error:
+    Variable not in scope: generalCategory :: Char -> t
+ghci> import Data.Char
+ghci> all isAlphaNum "bobby283"  
+True
+ghci> all isAlphaNum "eddy the fish!"  
+False
+ghci> words "hey guys its me"
+["hey","guys","its","me"]
+ghci> groupBy ((==) `on` isSpace) "hey guys its me"
+["hey"," ","guys"," ","its"," ","me"]
+ghci> filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me"  
+
+<interactive>:94:1: error:
+    Ambiguous occurrence ‘filter’
+    It could refer to either ‘Data.Map.filter’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.filter’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.filter’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.List’)
+ghci> generalCategory ' '
+Space
+ghci> generalCategory 'A'
+UppercaseLetter
+ghci> generalCategory 'a'  
+LowercaseLetter
+ghci> generalCategory '.'
+OtherPunctuation
+ghci> generalCategory '9'
+DecimalNumber
+ghci> map generalCategory " \t\nA9?|"
+
+<interactive>:100:1: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+ghci> ord 'a'
+97
+ghci> chr 97  
+'a'
+ghci> map ord "abcdefgh"
+
+<interactive>:103:1: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+ghci>     import qualified Data.Set as Set  
+ghci> text1 = "I just had an anime dream. Anime... Reality... Are they so different?"  
+ghci> text2 = "The old man left his garbage can out and now his trash is all over my lawn!"  
+ghci> let set1 = Set.fromList text1
+ghci> let set2 = Set.fromList text2 
+ghci> set1
+fromList " .?AIRadefhijlmnorstuy"
+ghci> set2
+fromList " !Tabcdefghilmnorstuvwy"
+ghci> Set.intersection set1 set2
+fromList " adefhilmnorstuy"
+ghci> Set.difference set1 set2  
+fromList ".?AIRj"
+ghci> Set.difference set2 set1
+fromList "!Tbcgvw"
+ghci> Set.union set1 set2
+fromList " !.?AIRTabcdefghijlmnorstuvwy"
+ghci> Set.null Set.empty  
+True
+ghci> Set.null $ Set.fromList [3,4,5,5,4,3]
+False
+ghci> Set.size $ Set.fromList [3,4,5,3,4,5]
+3
+ghci> Set.singleton 9
+fromList [9]
+ghci> Set.insert 4 $ Set.fromList [9,3,8,1]
+fromList [1,3,4,8,9]
+ghci> Set.insert 8 $ Set.fromList [5..10]
+fromList [5,6,7,8,9,10]
+ghci> Set.delete 4 $ Set.fromList [3,4,5,4,3,4,5]
+fromList [3,5]
+ghci> Set.fromList [2,3,4] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
+True
+ghci> Set.fromList [1,2,3,4,5] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
+True
+ghci> Set.fromList [1,2,3,4,5] `Set.isProperSubsetOf` Set.fromList [1,2,3,4,5]
+False
+ghci> let setNub xs = Set.toList $ Set.fromList xs 
+ghci> setNub "HEY WHATS CRACKALACKIN"  
+" ACEHIKLNRSTWY"
+ghci> nub "HEY WHATS CRACKALACKIN"  
+"HEY WATSCRKLIN"
+
+ghci>     data Bool = False | True  
+ghci>     data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647  
+
+<interactive>:141:16: error: parse error on input ‘-’
+ghci> :t Circle
+
+<interactive>:1:1: error: Data constructor not in scope: Circle
+ghci>     data Person = Person String String Int Float String String deriving (Show)  
+ghci> let guy = Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
+ghci> guy
+Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
+ghci> firstName (Person firstname _ _ _ _ _) = firstname  
+ghci> lastName (Person _ lastname _ _ _ _) = lastname  
+ghci> age (Person _ _ age _ _ _) = age  
+ghci> height (Person _ _ _ height _ _) = height  
+ghci> phoneNumber (Person _ _ _ _ number _) = number  
+ghci> flavor (Person _ _ _ _ _ flavor) = flavor  
+ghci> firstName guy
+"Buddy"
+ghci> height guy
+184.2
+ghci> flavor guy
+"Chocolate"
+ghci> data Person = Person { firstName :: String, lastName :: String, age:: Int, height :: Float, phoneNumber :: String, flavor :: String} deriving (Show)
+ghci> :t flavor
+flavor :: Person -> String
+ghci> :t firstName
+firstName :: Person -> String
+ghci> data Car = Car String String Int deriving (Show)
+ghci> Car "Ford" "Mustang" 1967
+Car "Ford" "Mustang" 1967
+ghci> data Car = Car {company :: String, model :: String, year :: Int} deriving (Show)
+ghci> Car {company="Ford", model="Mustang", year=1967}
+Car {company = "Ford", model = "Mustang", year = 1967}
+ghci> Just "Haha"
+Just "Haha"
+ghci> Just 84
+Just 84
+ghci> :t Just "Haha"
+Just "Haha" :: Maybe [Char]
+ghci> :t Just 84
+Just 84 :: Num a => Maybe a
+ghci> :t Nothing
+Nothing :: Maybe a
+ghci> Just 10 :: Maybe Double
+Just 10.0
+ghci> data Car = Car { company :: String, model :: String, year :: Int} deriving (Show)
+ghci> deta Car a b c = Car { company :: a, model :: b , year :: c} deriving (Show)
+
+<interactive>:169:32: error: parse error on input ‘::’
+ghci> data Car a b c = Car {company :: a, model :: b, year :: c} deriving (Show)
+ghci> tellCar :: Car -> String
+
+<interactive>:171:12: error:
+    • Expecting three more arguments to ‘Car’
+      Expected a type, but ‘Car’ has kind ‘* -> * -> * -> *’
+    • In an expression type signature: Car -> String
+      In the expression: tellCar :: Car -> String
+      In an equation for ‘it’: it = tellCar :: Car -> String
+ghci> tellCar (Car {company = c, model = m, year = y}) = "This " ++ c ++ " " ++ m ++ " was made in " ++ show y  
+ghci> let stang = Car {company="Ford", model="Mustang", year=1967}
+ghci> tellCar stang
+"This Ford Mustang was made in 1967"
+ghci> tellCar (Car {company = c, model = m, year = y}) = "This " ++ c ++ " " ++ m ++ " was made in " ++ show y  
+ghci> tellCar (Car "Ford" "Mustang" 1967)
+"This Ford Mustang was made in 1967"
+ghci> tellCar (Car "Ford" "Mustang" "nineteen sixty seven")
+"This Ford Mustang was made in \"nineteen sixty seven\""
+ghci> :t Car "Ford" "Mustang" 1967
+Car "Ford" "Mustang" 1967 :: Num c => Car [Char] [Char] c
+ghci> :t Car "Ford" "Mustang" "nineteen sixty seven"
+Car "Ford" "Mustang" "nineteen sixty seven"
+  :: Car [Char] [Char] [Char]
+ghci>     data (Ord k) => Map k v = ...  
+
+<interactive>:180:31: error: parse error on input ‘...’
+ghci> data Vector a = Vector a a a deriving (Show)
+ghci> (Vector i j k) `vplus` (Vector l m n) = Vector (i+l) (j+m) (k+n)  
+ghci> (Vector i j k) `vectMult` m = Vector (i*m) (j*m) (k*m)  
+ghci> (Vector i j k) `scalarMult` (Vector l m n) = i*l + j*m + k*n  
+ghci> Vector 3 5 8 `vplus` Vector 9 2 8
+Vector 12 7 16
+ghci> Vector 3 5 8 `vplus` Vector 9 2 8 `vplus` Vector 0 2 3
+Vector 12 9 19
+ghci> data Person = Person { firstName :: String, lastName :: String, age :: Int}
+ghci> data Person = Person { firstName :: String, lastName :: String, age :: Int} deriving (Eq)
+ghci> let mikeD = Person {firstName = "Michael", lastName = "Diamond", age = 43}
+ghci> let adRock = Person {firstName = "Adam", lastName = "Horovitz", age = 41}
+ghci> let mca = Person {firstName = "Adam", lastName = "Yauch", age = 44}
+ghci> mca == adRock
+False
+ghci> mikeD == adRock
+False
+ghci> let beastieBoys = [mca, adRock, mikeD]
+ghci> mikeD `elem` beastieBoys
+True
+ghci> data Person = Person { firstName :: String, lastName :: String, age :: Int} deriving (Eq, Show, Read)
+ghci> let mikeD = Person {firstName = "Michael", lastName = "Diamond", age = 43}
+ghci> mikeD
+Person {firstName = "Michael", lastName = "Diamond", age = 43}
+ghci> "mikeD is: " ++ show mikeD
+"mikeD is: Person {firstName = \"Michael\", lastName = \"Diamond\", age = 43}"
+ghci> read "Person {firstName =\"Michael\", lastName =\"Diamond\", age = 43}" :: Person
+Person {firstName = "Michael", lastName = "Diamond", age = 43}
+ghci> read "Person {firstName =\"Michael\", lastName =\"Diamond\", age = 43}" == mikeD
+True
+ghci> data Bool = False | True deriving (Ord)
+
+<interactive>:202:36: error:
+    • No instance for (Eq Bool)
+        arising from the 'deriving' clause of a data type declaration
+      Possible fix:
+        use a standalone 'deriving instance' declaration,
+          so you can specify the instance context yourself
+      There are instances for similar types:
+        instance Eq Prelude.Bool -- Defined in ‘GHC.Classes’
+    • When deriving the instance for (Ord Bool)
+ghci> True `compare` False
+
+<interactive>:203:1: error:
+    • No instance for (Ord Bool) arising from a use of ‘compare’
+      There are instances for similar types:
+        instance Ord Prelude.Bool -- Defined in ‘GHC.Classes’
+    • In the expression: True `compare` False
+      In an equation for ‘it’: it = True `compare` False
+ghci> Nothing < Just 100
+True
+ghci> Nothing > Just (-49999)
+False
+ghci> data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday   deriving (Eq, Ord, Show, Read, Bounded, Enum)
+ghci> Wednesday
+Wednesday
+ghci> show Wednesday
+"Wednesday"
+ghci> read "Saturday" :: Day
+Saturday
+ghci> minBound :: Day
+Monday
+ghci> macBound :: Day
+
+<interactive>:211:1: error:
+    • Variable not in scope: macBound :: Day
+    • Perhaps you meant one of these:
+        ‘maxBound’ (imported from Prelude),
+        ‘minBound’ (imported from Prelude)
+ghci> maxBound :: Day
+Sunday
+ghci> phoneBook :: [(String,String)]
+
+<interactive>:213:1: error:
+    Variable not in scope: phoneBook :: [(String, String)]
+ghci> type AssocList k v = [(k,v)]
+ghci> :t AssocList
+
+<interactive>:1:1: error: Data constructor not in scope: AssocList
+ghci> data Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
+ghci> Right 20
+Right 20
+ghci> :t Right 'a'
+Right 'a' :: Either a Char
+ghci> :t Left True
+Left True :: Either Bool b
+ghci> import qualified Data.Map as Map
+ghci> data LockerState = Taken | Free deriving (Show, Eq)
+ghci> type Code = String
+ghci> type LockerMap = Map.Map Int (LockerState, Code)
+ghci> infixr 5  .++  
+
+<interactive>:224:11: error:
+    The fixity signature for ‘.++’ lacks an accompanying binding
+ghci> class Eq a where      (==) :: a -> a -> Bool      (/=) :: a -> a -> Bool      x == y = not (x /= y)      x /= y = not (x == y)  
+
+<interactive>:225:56: error: parse error on input ‘::’
+ghci>     data TrafficLight = Red | Yellow | Green  
+ghci> instance Eq TrafficLight where  
+
+<interactive>:227:10: warning: [-Wmissing-methods]
+    • No explicit implementation for
+        either ‘==’ or ‘/=’
+    • In the instance declaration for ‘Eq TrafficLight’
+ghci> instance Functor [] where      fmap = map  
+
+<interactive>:228:39: error:
+    Ambiguous occurrence ‘map’
+    It could refer to either ‘Data.Map.map’,
+                             imported from ‘Data.Map’
+                             (and originally defined in ‘Data.Map.Internal’)
+                          or ‘Prelude.map’,
+                             imported from ‘Prelude’ (and originally defined in ‘GHC.Base’)
+                          or ‘Data.Set.map’,
+                             imported from ‘Data.Set’
+                             (and originally defined in ‘Data.Set.Internal’)
+ghci>     main = putStrLn "hello, world"  
+ghci> :quit
+Leaving GHCi.
+Ians-Air:my-project ian$ ls
+ChangeLog.md		app			stack.yaml
+LICENSE			my-project.cabal	stack.yaml.lock
+README.md		package.yaml		test
+Setup.hs		src
+Ians-Air:my-project ian$ cd src
+Ians-Air:src ian$ ls
+Lib.hs	baby.hs
+Ians-Air:src ian$ ghc --make helloword
+target ‘helloword’ is not a module name or a source file
+Ians-Air:src ian$ ghc --make helloworld
+[1 of 1] Compiling Main             ( helloworld.hs, helloworld.o )
+Linking helloworld ...
+Ians-Air:src ian$ ./helloworld
+hello, world
+Ians-Air:src ian$ runhaskell putchar_test.hs
+tehIans-Air:src ian$ runhaskell print_test.hs
+
+<no location info>: error: can't find file: print_test.hs
+Ians-Air:src ian$ runhaskell print_test.hs
+True
+2
+"haha"
+3.2
+[3,4,3]
+Ians-Air:src ian$ runhaskell getchar_test.hs
+X
+X
+          
+
+
+
+runhaskell guess_the_number.hs
+runhaskellIans-Air:src ian$ runhaskell guess_the_number.hs
+
+guess_the_number.hs:1:1: error:
+    Could not find module ‘System.Random’
+    Use -v to see a list of the files searched for.
+  |
+1 | import System.Random
+  | ^^^^^^^^^^^^^^^^^^^^
+Ians-Air:src ian$ import qualified Data.ByteString.Lazy as B  
+-bash: import: command not found
+Ians-Air:src ian$ ghci
+GHCi, version 8.6.5: http://www.haskell.org/ghc/  :? for help
+Prelude> :set prompt "ghci> "
+ghci> import qualified Data.ByteString.Lazy as B  
+ghci> import qualified Data.ByteString as S  
+ghci> B.pack [99,97,110]
+"can"
+ghci> B.pack [98..120]
+"bcdefghijklmnopqrstuvwx"
+ghci> B.fromChunks [S.pack [40,41,42], S.pack [43,44,45], S.pack [46,47,48]]
+"()*+,-./0"
+ghci> B.cons 85 $ B.pack [80,81,82,84]
+"UPQRT"
+ghci> B.cons' 85 $ B.pack [80,81,82,84]
+"UPQRT"
+ghci> foldr B.cons B.empty [50..60]
+"23456789:;<"
+ghci> foldr B.cons' B.empty [50..60]
+"23456789:;<"
+ghci> 4 `div` 0
+*** Exception: divide by zero
+ghci> head []
+*** Exception: Prelude.head: empty list
+ghci> data Node = Node Road Road | EndNode Road
+
+<interactive>:13:18: error:
+    Not in scope: type constructor or class ‘Road’
+    Perhaps you meant ‘Read’ (imported from Prelude)
+
+<interactive>:13:23: error:
+    Not in scope: type constructor or class ‘Road’
+    Perhaps you meant ‘Read’ (imported from Prelude)
+
+<interactive>:13:38: error:
+    Not in scope: type constructor or class ‘Road’
+    Perhaps you meant ‘Read’ (imported from Prelude)
+ghci> data Section = Section { getA :: Int, getB :: Int, getC :: Int } deriving (Show)
+ghci> type RoadSystem = [Section]
+ghci> heathrowToLondon :: RoadSystem
+
+<interactive>:16:1: error:
+    Variable not in scope: heathrowToLondon :: RoadSystem
+ghci> heathrowToLondon = [Section 50 10 30, Section 5 90 20, Section 40 2 25, Section 10 8 0]  
+ghci> instance Functor IO where      fmap f action = do          result <- action          return (f result)  
+
+<interactive>:18:60: error:
+    The last statement in a 'do' block must be an expression
+      result <- action return (f result)
+ghci> data CMaybe a = CNothing | CJust Int a deriving (Show)
+ghci> CNothing
+CNothing
+ghci> Cjust 0 "haha"
+
+<interactive>:21:1: error:
+    • Data constructor not in scope: Cjust :: Integer -> [Char] -> t
+    • Perhaps you meant ‘CJust’ (line 19)
+ghci> instance Functor CMaybe where      fmap f CNothing = CNothing  
+ghci>     fmap f (CJust counter x) = CJust (counter+1) (f x)  
+ghci> fmap (++"ha") (CJust 0 "ho")
+CJust 1 "hoha"
+ghci> fmap (++"he") (fmap (++"ha") (CJust 0 "ho"))
+CJust 2 "hohahe"
+ghci> fmap id (CJust 0 "haha")
+CJust 1 "haha"
+ghci> :t fmap (++) (Just "hey")
+
+<interactive>:1:12: error:
+    • Couldn't match expected type ‘CMaybe [a]’
+                  with actual type ‘Maybe [Char]’
+    • In the second argument of ‘fmap’, namely ‘(Just "hey")’
+      In the expression: fmap (++) (Just "hey")
+ghci> let a = fmap (*) [1,2,3,4]
+
+<interactive>:28:18: error:
+    • Couldn't match expected type ‘CMaybe a’
+                  with actual type ‘[Integer]’
+    • In the second argument of ‘fmap’, namely ‘[1, 2, 3, 4]’
+      In the expression: fmap (*) [1, 2, 3, 4]
+      In an equation for ‘a’: a = fmap (*) [1, 2, 3, ....]
+    • Relevant bindings include
+        a :: CMaybe (a -> a) (bound at <interactive>:28:5)
+ghci>     fmap :: (Functor f) => (a -> b) -> f a -> f b  
+
+<interactive>:29:5: error:
+    • Couldn't match type ‘f1’ with ‘CMaybe’
+      ‘f1’ is a rigid type variable bound by
+        an expression type signature:
+          forall (f1 :: * -> *) a1 b1.
+          Functor f1 =>
+          (a1 -> b1) -> f1 a1 -> f1 b1
+        at <interactive>:29:13-49
+      Expected type: (a1 -> b1) -> f1 a1 -> f1 b1
+        Actual type: (a1 -> b1) -> CMaybe a1 -> CMaybe b1
+    • In the expression: fmap :: (Functor f) => (a -> b) -> f a -> f b
+      In an equation for ‘it’:
+          it = fmap :: (Functor f) => (a -> b) -> f a -> f b
+ghci>     fmap :: (Functor f) => (a -> b) -> f a -> f b  
+
+<interactive>:30:5: error:
+    • Couldn't match type ‘f1’ with ‘CMaybe’
+      ‘f1’ is a rigid type variable bound by
+        an expression type signature:
+          forall (f1 :: * -> *) a1 b1.
+          Functor f1 =>
+          (a1 -> b1) -> f1 a1 -> f1 b1
+        at <interactive>:30:13-49
+      Expected type: (a1 -> b1) -> f1 a1 -> f1 b1
+        Actual type: (a1 -> b1) -> CMaybe a1 -> CMaybe b1
+    • In the expression: fmap :: (Functor f) => (a -> b) -> f a -> f b
+      In an equation for ‘it’:
+          it = fmap :: (Functor f) => (a -> b) -> f a -> f b
+
+ghci> (*) <$> Just 2 <*> Just 8
+Just 16
+ghci> (++) <$> Just "klingon" <*> Nothing 
+Nothing
+ghci> (-) <$> [3,4] <*> [1,2,3] 
+[2,1,0,3,2,1]
+ghci> max <$> Just 3 <*> Just 6
+Just 6
+ghci> (\x -> Just (x+1)) 1 
+Just 2
+ghci> (\x -> Just (x+1)) 100
+Just 101
+ghci> applyMaybe Nothing f  = Nothing  
+ghci> applyMaybe (Just x) f = f x  
+ghci> Just 3 `applyMaybe` \x -> Just (x+1)
+Just 4
+ghci> Just "smile" `applyMaybe` \x -> Just (x ++ " :)")
+Just "smile :)"
+ghci> Just 3 `applyMaybe` \x -> if x > 2 then Just x else Nothing
+Just 3
+ghci> class Monad m where
+ghci> return :: a -> m a
+
+<interactive>:48:1: error:
+    • No instance for (Prelude.Monad m1) arising from a use of ‘return’
+      Possible fix:
+        add (Prelude.Monad m1) to the context of
+          an expression type signature:
+            forall a1 (m1 :: * -> *). a1 -> m1 a1
+    • In the expression: return :: a -> m a
+      In an equation for ‘it’: it = return :: a -> m a
+ghci> class Monad m where return :: a -> m a
+ghci> return "WHAT" :: Maybe String
+
+<interactive>:50:1: error:
+    • No instance for (Monad Maybe) arising from a use of ‘return’
+    • In the expression: return "WHAT" :: Maybe String
+      In an equation for ‘it’: it = return "WHAT" :: Maybe String
+ghci> return "WHAT" :: Maybe String
+
+<interactive>:51:1: error:
+    • No instance for (Monad Maybe) arising from a use of ‘return’
+    • In the expression: return "WHAT" :: Maybe String
+      In an equation for ‘it’: it = return "WHAT" :: Maybe String
+ghci> type Birds = Int  
+ghci> type Pole = (Birds,Birds)  
+ghci> landLeft n (left,right) = (left + n,right)  
+ghci> landRight n (left,right) = (left,right + n)  
+ghci> landLeft 2 (0,0) 
+(2,0)
+ghci> landRight 1 (1,2)
+(1,3)
+ghci> landLeft 2 (landRight 1 (landLeft 1 (0,0)))
+(3,1)
+ghci> 100 -: (*3)  
+
+<interactive>:59:5: error:
+    • Variable not in scope:
+        (-:) :: Integer -> (Integer -> Integer) -> t
+    • Perhaps you meant ‘-’ (imported from Prelude)
+ghci> (*) <$> [1,2,3] <*> [10,100,1000] 
+[10,100,1000,20,200,2000,30,300,3000]
+ghci> [] >>= \x -> ["bad","mad","rad"]
+[]
+ghci> [1,2] >>= \n -> ['a','b'] >>= \ch -> return (n,ch)  
+
+<interactive>:62:38: error:
+    • Could not deduce (Monad []) arising from a use of ‘return’
+      from the context: Num a
+        bound by the inferred type of it :: Num a => [(a, Char)]
+        at <interactive>:62:1-50
+    • In the expression: return (n, ch)
+      In the second argument of ‘(>>=)’, namely ‘\ ch -> return (n, ch)’
+      In the expression: ['a', 'b'] >>= \ ch -> return (n, ch)
+ghci> guard (5 > 2) :: Maybe () 
+
+<interactive>:63:1: error:
+    Variable not in scope: guard :: Bool -> Maybe ()
+ghci> [1..50] >>= (\x -> guard ('7' `elem` show x) >> return x)  
+
+<interactive>:64:20: error:
+    Variable not in scope: guard :: Bool -> [a0]
+ghci> f <=< g = (\x -> g x >>= f)  
+ghci> let f x = [x,-x]
+ghci> let g x = [x*3,x*2] 
+ghci> let h = f <=< g
+ghci> h 3
+[9,-9,6,-6]
+ghci> isBigGang x = x > 9  
+ghci> isBigGang x = (x > 9, "Compared gang size to 9.")  
+ghci> isBigGang 3
+(False,"Compared gang size to 9.")
+ghci> isBigGang 30
+(True,"Compared gang size to 9.")
+ghci> [1,2,3] `mappend` [4,5,6] 
+[1,2,3,4,5,6]
+ghci> B.pack [99,104,105] `mappend` B.pack [104,117,97,104,117,97] 
+"chihuahua"
+ghci> Sum 3 `mappend` Sum 9 
+
+<interactive>:76:1: error:
+    • Data constructor not in scope: Sum :: Integer -> a
+    • Perhaps you meant variable ‘sum’ (imported from Prelude)
+
+<interactive>:76:17: error:
+    • Data constructor not in scope: Sum :: Integer -> a
+    • Perhaps you meant variable ‘sum’ (imported from Prelude)
+ghci> ("beans", Sum 10) `applyLog` addDrink
+
+<interactive>:77:11: error:
+    • Data constructor not in scope: Sum :: Integer -> b0
+    • Perhaps you meant variable ‘sum’ (imported from Prelude)
+
+<interactive>:77:19: error:
+    Variable not in scope: applyLog :: ([Char], b0) -> t0 -> t
+
+<interactive>:77:30: error: Variable not in scope: addDrink
+ghci>     newtype Writer w a = Writer { runWriter :: (a, w) }  
+ghci> runWriter (return 3 :: Writer String Int)
+
+<interactive>:79:12: error:
+    • No instance for (Monad (Writer String))
+        arising from a use of ‘return’
+    • In the first argument of ‘runWriter’, namely
+        ‘(return 3 :: Writer String Int)’
+      In the expression: runWriter (return 3 :: Writer String Int)
+      In an equation for ‘it’:
+          it = runWriter (return 3 :: Writer String Int)
+ghci>     data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show)  
+ghci> data Direction = L | R deriving (Show)
+ghci> type Directions = [Direction]  
+ghci> changeToP (L:ds) (Node x l r) = Node x (changeToP ds l) r  
+ghci> changeToP (R:ds) (Node x l r) = Node x l (changeToP ds r)  
+ghci> changeToP [] (Node _ l r) = Node 'P' l r  
+ghci> goLeft (Node _ l _, bs) = (l, L:bs)  
+ghci> goRight (Node _ _ r, bs) = (r, R:bs)  
+ghci> goLeft (goRight (freeTree, []))
+
+<interactive>:88:18: error:
+    Variable not in scope: freeTree :: Tree a
+ghci>     type Zipper a = (Tree a, Breadcrumbs a)  
+
+<interactive>:89:30: error:
+    Not in scope: type constructor or class ‘Breadcrumbs’
+ghci> type Name = String  
+ghci> type Data = String  
+ghci> data FSItem = File Name Data | Folder Name [FSItem] deriving (Show)  
+ghci> myDisk =     Folder "root"           [ File "goat_yelling_like_man.wmv" "baaaaaa"          , File "pope_time.avi" "god bless"          , Folder "pics"              [ File "ape_throwing_up.jpg" "bleargh"              , File "watermelon_smash.gif" "smash!!"              , File "skull_man(scary).bmp" "Yikes!"  ]        , File "dijon_poupon.doc" "best mustard"          , Folder "programs"              [ File "fartwizard.exe" "10gotofart"              , File "owl_bandit.dmg" "mov eax, h00t"              , File "not_a_virus.exe" "really not a virus"              , Folder "source code"                  [ File "best_hs_prog.hs" "main = print (fix error)"                  , File "random.hs" "main = print 4"  ]]]
+ghci>     data FSCrumb = FSCrumb Name [FSItem] [FSItem] deriving (Show)  
+ghci>     type FSZipper = (FSItem, [FSCrumb])  
+ghci> fsUp (item, FSCrumb name ls rs:bs) = (Folder name (ls ++ [item] ++ rs), bs)  
+ghci> import Data.List (break)  
+ghci> fsTo name (Folder folderName items, bs) =       let (ls, item:rs) = break (nameIs name) items      in  (item, FSCrumb folderName ls rs:bs)  
+
+<interactive>:98:76: error:
+    • Variable not in scope: nameIs :: p -> FSItem -> Bool
+    • Perhaps you meant ‘name’ (line 98)
+ghci> let newFocus = (myDisk,[]) -: fsTo "pics" -: fsTo "skull_man(scary).bmp"  
+
+<interactive>:99:28: error:
+    • Variable not in scope: (-:) :: (FSItem, [a0]) -> t1 -> t0
+    • Perhaps you meant ‘-’ (imported from Prelude)
+
+<interactive>:99:31: error:
+    Variable not in scope: fsTo :: [Char] -> t1
+
+<interactive>:99:43: error:
+    • Variable not in scope: (-:) :: t0 -> t2 -> t
+    • Perhaps you meant ‘-’ (imported from Prelude)
+
+<interactive>:99:46: error:
+    Variable not in scope: fsTo :: [Char] -> t2
+ghci> fst newFocus 
+
+<interactive>:100:5: error:
+    Variable not in scope: newFocus :: (a, b0)
+ghci> :quit
+Leaving GHCi.
